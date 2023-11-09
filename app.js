@@ -4,6 +4,7 @@ console.log('App is connected');
 const barbie = {
     name: 'Barbie',
     wardrobe: [],
+    portfolio: [],
     wallet: 0
 }
 
@@ -71,9 +72,18 @@ class Clothing {
     }
 }
 
+class Property {
+    constructor(type, size, price, income) {
+        this.type = type;
+        this.size = size;
+        this.price = price;
+        this.income = income;
+    }
+}
+
 const birkin = new Clothing('Birkin Bag', 'Hermes', 'purple', 'bag', 'lg', 15470)
 const redBottoms = new Clothing('Red Bottoms', 'Christian Loboutin', 'black', 'shoes', '6', 3000)
-
+const rentalProp = new Property('condo', '600sqft', 50000, 500)
 
 
 
@@ -94,6 +104,15 @@ barbie.render = () => {
             ${item.name} made by ${item.designer}
             that is worth ${item.price} in size 
             ${item.size} 
+            </li>`
+    })).join('')
+        }</ul>
+    </div>
+    <div> <h2>Portfolio Contains: </h2> 
+    <ul>${barbie.portfolio.map((item => {
+        return `<li>
+            ${barbie.name} has a ${item.size} 
+            ${item.type} that is worth $${item.price} and earns her an extra $${item.income} weekly.
             </li>`
     })).join('')
         }</ul>
@@ -144,4 +163,18 @@ rbButton.addEventListener('click', () => {
     } else {
         alert('Stop trippin you know you aint got it like that');
     }
+})
+
+const rentButton = document.getElementById('rental-property')
+
+rentButton.addEventListener('click',() => {
+    if (barbie.wallet >= rentalProp.price) {
+        barbie.portfolio.push(rentalProp);
+        barbie.wallet -= rentalProp.price;
+        barbie.career.income += rentalProp.income;
+        barbie.render();
+    } else {
+        alert('Stop trippin you know you aint got it like that');
+    }
+
 })
